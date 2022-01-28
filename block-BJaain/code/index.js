@@ -202,7 +202,7 @@ let name1 = person.print;
 let name2 = person.details;
 
 console.log(name1()); //  nothing because this point to window and have predefined key window.name whose value is '' 
-console.log(name2.print()); //  Jay Details
+console.log(name2.print()); //   Error 
 
 // --------
 
