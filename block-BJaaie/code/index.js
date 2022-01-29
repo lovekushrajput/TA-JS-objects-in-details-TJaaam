@@ -49,8 +49,8 @@
 // let dog = new CreateDog ("khaniyara",4,"dodo","white")
 
 // // cat
-// function CreateCat(location,numberOfLegs,name,color,name,colorOfEyes){
-//     CreateDog.apply(this,[location,numberOfLegs,name,color]);
+// function CreateCat(location,numberOfLegs,name,colorOfEyes){
+//     CreateDog.apply(this,[location,numberOfLegs]);
 //     this.name = name,
 //     this.colorOfEyes = colorOfEyes
 // }
@@ -72,8 +72,8 @@
 //     }
 // }
 
-// Object.setPrototypeOf(CreateCat.prototype, CreateDog.prototype)
-// let cat = new CreateCat("rath",4,"doggy","black","sweety","brown")
+// Object.setPrototypeOf(CreateCat.prototype, CreateAnimal.prototype)
+// let cat = new CreateCat("rath",4,"sweety","brown")
 
 
 
@@ -153,41 +153,40 @@ console.groupEnd()
 
 
 // cat
-class CreateCat extends CreateDog{
-    constructor(location,numberOfLegs,name,color,_name,colorOfEyes){
-        super(location,numberOfLegs,name,color);
-        this._name=_name,
+class CreateCat extends CreateAnimal{
+    constructor(location,numberOfLegs,name,colorOfEyes){
+        super(location,numberOfLegs);
+        this.name=name,
         this.colorOfEyes =colorOfEyes
     };
     meow (){
-        alert( `I am ${this._name} and I can do mewo meow 😹`)
+        alert( `I am ${this.name} and I can do mewo meow 😹`)
     };
     changeName  (newName){
       this.name = newName;
-      return   this._name
+      return   this.name
     };
     changeColorOfEyes  (newColor){
         this.colorOfEyes = newColor;
         return  this.colorOfEyes
     };
     summary  (){
-        return `I am ${this._name} and the color of my eyes are ${this.colorOfEyes}. I can also do meow meow`
+        return `I am ${this.name} and the color of my eyes are ${this.colorOfEyes}. I can also do meow meow`
     }
 
 }
 
-let cat = new CreateCat("haryana",4,"dodo","white","sweety","black")
+let cat = new CreateCat("haryana",4,"sweety","black")
 console.group("Cat")
 console.log(cat.name)
-console.log(cat.color)
 console.log(cat.location)
 console.log(cat.numberOfLegs)
 console.log(cat.summary())
 console.log(cat.eat(),`"logging message"`)
 console.log(cat.changeLocation("Goa"),`"changelocation"`)
-console.log(cat.changeColor("Black"),`changeColor`)
 console.log(cat.changeColorOfEyes("Brown"),`changeEyeColor`)
 console.log(cat.changeName("Catty"),`changeName`)
 console.log(cat.location)
+console.log(cat.meow())
 console.log(cat.summary())
 console.groupEnd()
