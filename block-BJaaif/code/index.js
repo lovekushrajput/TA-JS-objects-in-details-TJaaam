@@ -26,14 +26,10 @@ console.log(vicky.age); // -> Logs 24
 
 var personStore = {
   // add code here
-  greet (){
+  greet : function (){
     console.log(`hello`)
   }
 };
-function createPerson (){
-  let obj = Object.create(personStore)
-  return obj
-}
 
 // /********* Uncomment this line to test your work! *********/
 personStore.greet(); // -> Logs 'hello'
@@ -42,20 +38,12 @@ personStore.greet(); // -> Logs 'hello'
 
 function personFromPersonStore(name, age) {
   // add code here
-  let obj = Object.create(personFromPersonStoreMethod)
+  let obj = Object.create(personStore)
   obj.name = name,
   obj.age = age
   return obj
 }
 
-let personFromPersonStoreMethod = {
-  greet (){
-    console.log(`hello`)
-  },
-  introduce(){
-    console.log(`Hi, my name is ${this.name}`)
-  }
-}
 var sandra = personFromPersonStore('Sandra', 26);
 
 // /********* Uncomment these lines to test your work! *********/
@@ -66,6 +54,9 @@ sandra.greet(); //-> Logs 'hello'
 /*** CHALLENGE 3 of 3 ***/
 
 // add code here
+personStore.introduce = function(){
+  console.log(`Hi, my name is ${this.name}`)
+}
 sandra.introduce(); // -> Logs 'Hi, my name is Sandra'
 
 /****************************************************************
@@ -76,37 +67,31 @@ sandra.introduce(); // -> Logs 'Hi, my name is Sandra'
 
 function PersonConstructor() {
   // add code here
-}
-
-PersonConstructor.prototype = {
-  greet (){
+  this.greet = function (){
     console.log(`hello`)
   }
 }
-
 // /********* Uncomment this line to test your work! *********/
 var simon = new PersonConstructor();
 simon.greet(); // -> Logs 'hello'
 
 /*** CHALLENGE 2 of 3 ***/
 
-function personFromConstructor(name, age) {
-  let obj = Object.create(personFromConstructorMethod)
+function  PersonFromConstructor(name, age) {
   // add code here
-  obj.name = name,
-  obj.age = age
-  return obj
+  this.name = name,
+  this.age = age
 }
 
-let personFromConstructorMethod = {
+
+PersonFromConstructor.prototype = {
   greet (){
     console.log(`hello`)
   }
 }
 
 
-var mike = personFromConstructor('Mike', 30);
-
+var mike = new PersonFromConstructor('Mike', 30);
 // /********* Uncomment these lines to test your work! *********/
 console.log(mike.name); // -> Logs 'Mike'
 console.log(mike.age); //-> Logs 30
@@ -114,8 +99,10 @@ mike.greet(); //-> Logs 'hello'
 
 /*** CHALLENGE 3 of 3 ***/
 // add code here
-
-// mike.introduce(); // -> Logs 'Hi, my name is Mike'
+PersonFromConstructor.prototype.introduce = function (){
+  console.log(`Hi, my name is ${this.name}`)
+}
+mike.introduce(); // -> Logs 'Hi, my name is Mike'
 
 /****************************************************************
                         USING ES6 CLASSES
@@ -124,10 +111,10 @@ mike.greet(); //-> Logs 'hello'
 /*** CHALLENGE 1 of 3 ***/
 
 class PersonClass {
-  constructor() {
+  constructor(name) {
     // add code here
+    this.name = name
   }
-
   // add code here
   greet (){
     console.log(`hello`)
@@ -141,9 +128,9 @@ george.greet(); // -> Logs 'hello'
 /*** CHALLENGE 2 of 3 ***/
 
 // add code here
-class DeveloperClass {
+class DeveloperClass extends PersonClass {
   constructor(name,age) {
-    this.name = name,
+   super(name)
     this.age =age
   };
   introduce(){
@@ -173,31 +160,21 @@ function userFactory(name, score) {
   return user;
 }
 
-var adminFunctionStore= userFactory("Arya",100)
-console.group("Arya")
-console.log(adminFunctionStore.name)
-console.log(adminFunctionStore.score)
-adminFunctionStore.sayType()
-console.groupEnd()
+var adminFunctionStore = Object.create(userFunctionStore)
  /* Put code here */;
 
 function adminFactory(name, score) {
-  // Put code here
-  let user = Object.create( adminFactoryMethod);
-  user.type = 'User';
-  user.name = name;
-  user.score = score;
-  return user;
+   // Put code here
+  let obj = userFactory(name,score)
+Object.setPrototypeOf(obj,userFunctionStore)
+  obj.type = `Admin`
+  return obj
 }
-let adminFactoryMethod = {
-  sayType: function () {
-    console.log('I am a Admin');
-  },
-  sharePublicMessage: function () {
-    console.log(`Welcome ` + this.type);
-  }
-}
+
 /* Put code here for a method called sharePublicMessage*/
+userFunctionStore.sharePublicMessage = function (){
+  console.log('Welcome users!')
+}
 
 var adminFromFactory = adminFactory('Eva', 5);
 
