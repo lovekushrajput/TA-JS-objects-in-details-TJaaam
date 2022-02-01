@@ -7,8 +7,9 @@
 
  Array.prototype.myMap= function (callback){
  let arr = []
- for(let i=0;i<this.length;i++){
-   arr.push(callback(this[i]))
+ for(let i = 0 ;i < this.length ; i++){
+   let element = this[i]
+   arr.push(callback(element,i,this))
  }
 return arr
  }
@@ -41,10 +42,11 @@ After adding the function test it using the code below.
 // You code goes here
 Array.prototype.myFilter = function (callback){
   let arr = []
-  
+
   for(let i=0;i<this.length;i++){
-    if(callback(this[i]) === true){
-      arr.push(callback(this[i]))
+    let element = this[i]
+    if(callback(element,i,this)){
+      arr.push(element)
     }
   }
 
@@ -55,8 +57,7 @@ let even = numbers.myFilter(function (num) {
   return num % 2 === 0;
 });
 
-let filteredWords = words
-  .myFilter(function (word) {
+let filteredWords = words.myFilter(function (word) {
     return word.length > 3;
   })
   .join(' ');
@@ -72,12 +73,10 @@ Make sure it does not the changes the original array.
 
 // You code goes here
 Array.prototype.shuffle = function (){
-  let arr=[]
-  for(let i=0;i<this.length;i++){
-  let value = Math.floor(Math.random() * this.length)
-  arr.push(value)
-  }
-return arr
+
+  let arr=[...this]
+  arr = arr.sort(()=> Math.random() - 0.5)
+  return arr
 }
 // Test to check the shuffle method (It will return different output every time you call)
 console.log(numbers.shuffle());
