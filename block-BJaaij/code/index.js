@@ -1,11 +1,11 @@
 // ## An object-oriented book-list!
 class Book {
-constructor(title,category,author,isRead=false,finishedDate="04/02/2022"){
+constructor(title,category,author){
 this.Title = title,
 this.Category = category,
 this.Author = author,
-this.isRead = isRead,
-this.finishedDate = finishedDate
+this.isRead = false,
+this.finishedDate = null;
 };
 markBookAsRead(){
     this.isRead = true
@@ -13,16 +13,20 @@ markBookAsRead(){
 }
 }
 
-let book = new Book('400 Days','Mystery, Thriller','Chetan Bhagat',false)
+let book1 = new Book('400 Days','Mystery, Thriller','Chetan Bhagat')
+let book2 = new Book('Wings of fire','A P J Abdul Kalam, Arun Tiwari','Autobiography')
+let book3 = new Book ('	Murder!','Crime','Arnold Bennett')
+let book4 = new Book('The Open Boat','Classic','Stephen Crane')
+let book5 = new Book('The Hostage','Adventure','C. S. Forester')
 console.group('Book')
-console.log(book.Title)
-console.log(book.Author)
-console.log(book.Category)
-console.log(book.isRead)
-console.log(book.finishedDate)
-book.markBookAsRead()
-console.log(book.isRead)
-console.log(book.finishedDate)
+console.log(book1.Title)
+console.log(book1.Author)
+console.log(book1.Category)
+console.log(book1.isRead)
+console.log(book1.finishedDate)
+book1.markBookAsRead()
+console.log(book1.isRead)
+console.log(book1.finishedDate)
 console.groupEnd()
 
 
@@ -32,17 +36,19 @@ class BookList {
         this.bookArray = []
         this.index = 0
     };
-    add(...array){
-    this.bookArray.push(...array)
+    add(...books){
+    this.bookArray.push(...books)
     };
     getCurrentBook(){
     return this.bookArray[this.index]
     };
     getNextBook(){
-        return this.bookArray[this.index+1]
+        this.index = this.index+1
+        return this.bookArray[this.index]
     };
     getPrevBook(){
-        return this.bookArray[this.index--]
+        this.index = this.index-1
+        return this.bookArray[this.index]
     };
     changeCurrentBook(ind){
         this.index = ind
@@ -51,17 +57,5 @@ class BookList {
 }
 
 let listOfBook = new BookList()
-console.group('BookList')
-listOfBook.add(['Wings of fire'])
-listOfBook.add(['Attitude is Everything'])
-listOfBook.add(['My Jurney'])
-listOfBook.add(['Making of New India'])
-listOfBook.add(["A Passage to India"])
-console.log(listOfBook)
-console.log(listOfBook.getCurrentBook())
-console.log(listOfBook.getNextBook())
-console.log(listOfBook.getPrevBook())
-console.log(listOfBook.changeCurrentBook(4))
-console.log(listOfBook.getCurrentBook())
-console.log(listOfBook.getPrevBook())
-console.groupEnd()
+listOfBook.add(book1,book2,book3,book4,book5)
+
