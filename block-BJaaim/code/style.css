@@ -99,7 +99,7 @@ p{
 input{
     font-size: 1.2rem;
     margin-left: 1rem;
-    margin-bottom: 0.5rem;
+    margin-top: 0.7rem;
     font-weight: 400;
 }
 
@@ -131,4 +131,12 @@ strong{
     margin-top: 1rem;
     display: flex;
     flex-direction: column-reverse;
+}
+
+.div-show{
+ /* text-align: center; */
+width: 78%;
+ /* display: flex;
+justify-content: space-between;  */
+text-align: right;
 }

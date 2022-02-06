@@ -1,4 +1,5 @@
 // This method will decide how the UI of a question look like. Calling this function should add the UI in the DOM.
+let showbtn = document.querySelector(".show")
  class Question {
      constructor(title,options, correctAns){
         this.title = title,
@@ -6,168 +7,164 @@
         this.correctAns = correctAns     
      };
      isCorrect(answer){
-         if(answer===this.correctAns){
-            return true
-         }
-         else if(answer > this.options.length-1){
-            alert('Invalid input')
-        }
-         else if(answer!==this.correctAns){
-             return false
-         }
-        
+            return answer===this.options[this.correctAns]      
      };
     getCorrectAnswer(){
         return this.options[this.indexOfCorrectAns]
     };
     
-
-    createU(){
-        let form = document.createElement("form")
-        let p = document.createElement('p')
-        p.innerText= `Q-${this.title}`
-let div1 = document.createElement("div")
-        let input1 = document.createElement('input')
-        input1.type = 'radio'
-        input1.name = "radio"
-        input1.value = this.options[0]
-        let label1 = document.createElement('label')
-        label1.for="input1"
-        label1.innerText =  this.options[0]
-        div1.append(input1,label1)
-      
-     let div2 = document.createElement("div")
-        let input2 = document.createElement('input')
-        input2.type = 'radio'
-        input2.name = "radio"
-        input2.value = this.options[1]
-        let label2 = document.createElement('label')
-        label2.for="input2"
-        label2.innerText =   this.options[1]
-div2.append(input2,label2)
-      
-      
-        let div3 = document.createElement("div")
-        let input3 = document.createElement('input')
-        input3.type = 'radio'
-        input3.name = "radio"
-        input3.value = this.options[2]
-        let label3 = document.createElement('label')
-        label3.for="input3"
-        label3.innerText = this.options[2]
-div3.append(input3,label3)
-     
-    
-let div4 = document.createElement("div")
-        let input4 = document.createElement('input')
-        input4.type = 'radio'
-        input4.name = "radio"
-        input4.value = this.options[3]
-        let label4 = document.createElement('label')
-        label4.for="input3"
-        label4.innerText =this.options[3] 
-        div4.append(input4,label4)
-
-    
-        let divBtn = document.createElement("div")
-        divBtn.classList = "divBtn"
-        let button = document.createElement('button')
-        button.innerText="Submit"
-        button.classList = "btn"
-        let nextBtn = document.createElement('button')
-        nextBtn.innerText = "Next >>"
-        nextBtn.classList = "btn"
-        // nextBtn.addEventListener("click",(event)=>{
-        //     event.preventDefault();
-        // })
-        divBtn.append(button,nextBtn)
-        let paraDiv = document.createElement("div")
-        paraDiv.classList = "paraDiv"
-        let p2= document.createElement("small") 
-        let p3= document.createElement("strong")
-        paraDiv.append(p3,p2)
-        form.append(p,div1,div2,div3,div4,divBtn,paraDiv)
-        return form
-    }
  }
 
 class Quiz { 
     constructor(root,list=[]){
         this.activeIndex =  0 
-        this.score = 0
+   
 
         this.root=root
         this.allQuestion = list
         this.count = 0
-    };
-    //  nextQuestion(){
-    //      this.allQuestion.forEach((elm)=>{
-    //          console.log()
-    //      })
-        //  if(this.count<ques1.length){
-        //      let increase = this.count++
-        //      ques1[increase].title,ques1[increase].options,ques1[increase]
-        //  } else{
-        //      return  `Total Score = ${this.score}`
-        //  }  
-    //  };
-   
-    add(){
-        let increase = this.count++
-        let question1 = new Question(ques1[increase].title,ques1[increase].options,ques1[increase].correctAns)
+    }
+    updateScore(){
+        this.count = this.count + 1
+        }
+     nextQuestion(){
+            this.activeIndex =  this.activeIndex + 1
+            this.createU();               
+     };
+    add( title,options,correctAns){
+        let question1 = new Question( title,options,correctAns)
         this.allQuestion.push(question1)
-        this.createUI();
         return this.allQuestion.length
     }
- 
-    createUI(){
-    this.root.innerHTML = ""
-    this.allQuestion.forEach((todo)=>{
-    let ui = todo.createU()
-    let subBtn = ui.querySelector("button")
-    let correct = todo.correctAns
-    let opt = todo.options
-    let small = ui.querySelector("small")
-    let strong = ui.querySelector("strong")
-    subBtn.addEventListener("click",(event)=>{
-    event.preventDefault();
-    let radio = ui.querySelectorAll("input")
-    radio.forEach((elm)=>{
-    if(elm.checked){
-      small.innerText = `Submitted-  ${elm.value}`
-      strong.innerText = `Correct- ${opt[correct]}`
-    console.log( correct )  
-              }
-           })
-        })
 
-        let nxt = ui.querySelector(".btn")
-        nxt.addEventListener("click",(event)=>{
+    
+
+    createU(){
+         this.root.innerHTML = ""
+         // all the questions store in this.allQuestions
+        let active = this.allQuestion[this.activeIndex]
+        let form = document.createElement("form")
+
+        // question one by one
+        let p = document.createElement('p')
+        p.innerText= `Q-${active.title}`
+
+        // first option
+        let Option_1 = document.createElement("div")
+        let input1 = document.createElement('input')
+        input1.type = 'radio'
+        input1.name = "radio"
+        input1.id = "option-1"
+        input1.value = active.options[0]
+        let label1 = document.createElement('label')
+        label1.for="option-1"
+        label1.innerText =  active.options[0]
+        Option_1.append(input1,label1)
+      
+        // second option
+        let Option_2 = document.createElement("div")
+        let input2 = document.createElement('input')
+        input2.type = 'radio'
+        input2.name = "radio"
+        input2.id = "option-2"
+        input2.value = active.options[1]
+        let label2 = document.createElement('label')
+        label2.for="option-2"
+        label2.innerText =   active.options[1]
+        Option_2.append(input2,label2)
+      
+      // Third Option
+        let Option_3 = document.createElement("div")
+        let input3 = document.createElement('input')
+        input3.type = 'radio'
+        input3.name = "radio"
+        input3.id = "option-3"
+        input3.value = active.options[2]
+        let label3 = document.createElement('label')
+        label3.for="option-3"
+        label3.innerText = active.options[2]
+        Option_3.append(input3,label3)
+     
+    // fourth Option
+        let Option_4 = document.createElement("div")
+        let input4 = document.createElement('input')
+        input4.type = 'radio'
+        input4.name = "radio"
+        input4.id = "option-4"
+        input4.value = active.options[3]
+        let label4 = document.createElement('label')
+        label4.for="option-4"
+        label4.innerText = active.options[3] 
+        Option_4.append(input4,label4)
+
+    // paradiv
+  let paraDiv = document.createElement("div")
+        paraDiv.classList = "paraDiv"
+        let p2= document.createElement("small") 
+        let p3= document.createElement("strong")
+        let p4 = document.createElement("p")
+        paraDiv.append(p3,p2,p4)
+
+
+    // Submit and Next button
+        let divBtn = document.createElement("div")
+        divBtn.classList = "divBtn"
+
+
+        let subButton = document.createElement('button')
+        subButton.type="submit"
+        subButton.innerText="Submit"
+        subButton.classList = "btn"
+
+        form.addEventListener("submit",handleSubmit)
+        // handle submit button
+          function handleSubmit(event){
+              event.preventDefault();
+              let radio = document.querySelectorAll("input")
+              radio.forEach((input)=>{
+                if(input.checked){
+                  p2.innerText = `Submitted- ${input.value}(  ${active.isCorrect(input.value)})`
+                  p3.innerText = `Correct- ${active.options[active.correctAns]}` 
+                  if(active.isCorrect(input.value)){
+                    alert(true)
+                  }
+                          }
+                       })
+          }
+    
+  
+
+
+
+        let nextBtn = document.createElement('button')
+        nextBtn.innerText = "Next >>"
+        nextBtn.classList = "btn"
+        nextBtn.addEventListener("click",(event)=>{
             event.preventDefault();
-            console.log()
-            //   this.updateScore();
+            if(this.activeIndex===ques1.length-1){
+              nextBtn.style.display = "none"
+            }else{
+                this.nextQuestion();
+            }
         })
- 
-    this.root.append(ui)
-    })
+        divBtn.append(subButton,nextBtn)
+
+        form.append(p,Option_1,Option_2,Option_3,Option_4,paraDiv,divBtn)
+        this.root.append(form)
     }
-
-    updateScore(){
-       this.score = this.score ++
-       return this.score
-       }
-
-   
 }
 
-
-// for(let i=0;i<ques1.length;i++){
-//     ques1[i].
-// }
-// ques1.forEach((elm)=>{
-//     let quiz = new Quiz(document.querySelector("section"))
-// quiz.add(elm.title,elm.options,elm.correctAns)
-// })
-// qt1.add();
 let quiz = new Quiz(document.querySelector("section"))
-quiz.add()
+ques1.forEach((elm)=>{
+quiz.add(
+    elm.title,
+    elm.options,
+    elm.correctAns
+    )
+})
+quiz.createU()
+
+showbtn.addEventListener("click",()=>{
+    alert(quiz.score)
+    // console.log( quiz.updateScore()) 
+})
